@@ -188,22 +188,23 @@ h6 {
 
 
   /* --- HEIGHT PRIMITIVES: MOBILE --- */
-  --height-1: 53rem;
-  --height-2: 50rem;
-  --height-3: 34rem;
-  --height-7: 34.75rem;
-  --height-4: 25rem;
-  --height-5: 29rem;
-  --height-6: 26.5rem;
-  --height-8: 26.5rem;
+  --height-4xl: 53rem;
+  --height-3xl: 50rem;
+  --height-2xl: 34rem;
+  --height-xl: 34.75rem;
+  --height-lg: 25rem;
+  --height-md: 29rem;
+  --height-sm: 26.5rem;
+  --height-xs: 26.5rem;
 
 
   /* Font Families */
   --font-instrument-serif: "Instrument Serif", serif;
   --font-instrument-sans: "Instrument Sans", sans-serif;
 
-  /* Max Widths */
-  --width-container: 100%;
+  /* Max Widths & Margins */
+  --max-width-container: 100%;
+  --spacing-container: var(--spacing-xs);
 
 
   /* Typography Primitives: Mobile Base Sizes */
@@ -260,18 +261,19 @@ h6 {
   --spacing-14xl: 11rem;
 
   /* Corner Radius: Mobile */
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 2.5rem;
-  --radius-xl: 6.25rem;
+  --radius-xsmall: 0.25rem;
+  --radius-small: 0.5rem;
+  --radius-medium: 0.75rem;
+  --radius-large: 2.5rem;
+  --radius-xlarge: 6.25rem;
 }
 
 
 @media (width >=64rem) {
   :root {
-    /* Max Widths */
-    --width-container: 80rem;
+    /* Max Widths & Margins*/
+    --max-width-container: 80rem;
+    --spacing-container: var(--spacing-3xl);
 
 
     /* Primitives: Desktop Sizes */
@@ -305,17 +307,17 @@ h6 {
 
 
     /* Corner Radius: Desktop */
-    --radius-lg: 3.5rem;
+    --radius-large: 3.5rem;
 
 
     /* Height Overrides */
-    --height-1: 52rem;
-    --height-3: 43rem;
-    --height-7: 38.75rem;
-    --height-4: 38rem;
-    --height-5: 34.5rem;
-    --height-6: 30.5rem;
-    --height-8: 12.5rem;
+    --height-4xl: 52rem;
+    --height-2xl: 43rem;
+    --height-xl: 38.75rem;
+    --height-lg: 38rem;
+    --height-md: 34.5rem;
+    --height-sm: 30.5rem;
+    --height-xs: 12.5rem;
   }
 }
 

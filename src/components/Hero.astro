@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+import desktopBg from "../assets/pictures/hero-desktop-image.png";
+import mobileBg from "../assets/pictures/hero-mobile-image.png";
+import logoAmber from "../assets/pictures/logo-amber.png";
+import Button from "./Button.astro";
+---
+
+<section class="bg-surface-primary md:px-md">
+  <div
+    class="hero-container relative w-full h-4xl flex flex-col gap-5xl md:justify-between overflow-hidden bg-cover bg-center pt-2xl md:pt-md pb-6xl px-xs md:px-lg rounded-b-medium"
+  >
+    <nav class="flex justify-between items-center">
+      <Image src={logoAmber} alt="Amber Logo" class="h-8 w-auto" />
+      <Button text="Pre-order Amber" variant="primary" />
+    </nav>
+
+    <div class="md:max-w-6/12 flex flex-col gap-md">
+      <p class="body-md text-text-primary-invert">
+        Designed for distraction-free sleep
+      </p>
+
+      <h1 class="title-3xl text-text-primary-invert">Reclaim your rhythm</h1>
+
+      <p class="body-lg text-text-primary-invert">
+        Restore your natural rhythm with circadian light and invisible sensing.
+        No cameras. No microphones. Just rest.
+      </p>
+
+      <Button text="Pre-order Amber" variant="primary" />
+    </div>
+  </div>
+</section>
+
+<style
+  define:vars={{
+    desktopUrl: `url(${desktopBg.src})`,
+    mobileUrl: `url(${mobileBg.src})`,
+  }}
+>
+  .hero-container {
+    background-image: var(--mobileUrl);
+  }
+
+  @media (min-width: 600px) {
+    .hero-container {
+      background-image: var(--desktopUrl);
+    }
+  }
+</style>

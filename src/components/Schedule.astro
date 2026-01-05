@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+// Import your ritual images
+import riseImg from "../assets/pictures/ritual-rise.png";
+import setImg from "../assets/pictures/ritual-set.png";
+import sleepImg from "../assets/pictures/ritual-sleep.png";
+
+const rituals = [
+    {
+        time: "07:00 AM",
+        title: "Rise gently",
+        description:
+            "Forget jarring alarms. Amber brings the sunrise to your bedside, gradually filling the room with light to naturally suppress melatonin. Start your day feeling restored, alert, and ready to see what’s coming.",
+        image: riseImg,
+    },
+    {
+        time: "11:00 PM",
+        title: "Set the scene, prepare for rest",
+        description:
+            "Transform your bedroom into a sanctuary. As the day ends, the light shifts to a warm, blue-free amber glow that signals your body it’s time to rest. Perfect for reading, meditating, or simply disconnecting.",
+        image: setImg,
+    },
+    {
+        time: "03:00 AM",
+        title: "Sleep undisturbed",
+        description:
+            "True rest requires darkness. The display vanishes into the wood, leaving no visual noise. In the background, invisible sensors silently guard your sleep quality and air environment, without you ever noticing.",
+        image: sleepImg,
+    },
+];
+---
+
+<section class="bg-surface-primary pt-7xl">
+    <div class="flex flex-col gap-3xl border-b border-border-primary">
+        <h2 class="title-2xl text-text-primary px-container">
+            Your Daily Ritual
+        </h2>
+
+        <div class="flex flex-col px-container md:px-0 gap-2xl md:gap-0">
+            {
+                rituals.map((ritual) => (
+                    <div class="relative grid grid-cols-1 md:grid-cols-2 md:border-t md:border-border-primary overflow-hidden gap-lg">
+                        <div
+                            class="md:relative w-full h-md bg-cover bg-center rounded-medium md:rounded-none flex items-end py-sm px-xs"
+                            style={`background-image: url(${ritual.image.src});`}
+                        >
+                            <div class="md:absolute md:-right-20 md:top-5/12 z-10 bg-surface-primary border border-border-secondary rounded-medium py-xs body-lg font-semibold w-40 text-center">
+                                {ritual.time}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col justify-center md:pl-8xl md:pr-container gap-sm">
+                            <h3 class="title-lg text-text-primary">
+                                {ritual.title}
+                            </h3>
+                            <p class="body-md text-text-primary">
+                                {ritual.description}
+                            </p>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  text: string;
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  class?: string;
+}
+
+const { 
+  text, 
+  href = "#", 
+  variant = 'primary', 
+  class: className 
+} = Astro.props;
+
+const baseStyles = "inline-block px-xs py-3xs rounded-xlarge transition-all duration-500 body-sm text-center border w-fit";
+
+const variants = {
+  // Top left: Ghost with border -> Bottom left: Cream/Tan fill
+  primary: "border-border-primary-invert text-text-primary-invert hover:bg-button-primary-hover hover:text-text-primary",
+  
+  // Top center: Orange/Sienna -> Bottom center: Dark/Black
+  secondary: "bg-button-secondary border-button-secondary text-text-primary-invert hover:bg-button-secondary-hover hover:border-button-secondary-hover",
+  
+  // Top right: Ghost with black border -> Bottom right: Black fill
+  tertiary: "border-border-secondary text-text-primary hover:bg-button-tertiary-hover hover:text-text-primary-invert"
+};
+---
+
+<a href={href} class:list={[baseStyles, variants[variant], className]}>
+  {text}
+</a>
