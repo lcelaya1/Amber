@@ -1,66 +1,61 @@
 ---
 interface Props {
-  state?: 'active' | 'inactive';
-  direction?: 'left' | 'right' | 'up' | 'down';
-  color?: 'dark' | 'light';
+  state?: "active" | "inactive";
+  direction?: "left" | "right" | "up" | "down";
+  color?: "dark" | "light";
   class?: string;
   id?: string;
 }
 
-const { 
-  state = 'active', 
-  direction = 'right', 
-  color = 'dark',
+const {
+  state = "active",
+  direction = "right",
+  color = "dark",
   class: className,
-  id
+  id,
 } = Astro.props;
 
-// 1. Rotation Logic
 const rotations = {
   right: "",
   left: "rotate-180",
   up: "-rotate-90",
-  down: "rotate-90"
+  down: "rotate-90",
 };
 
-// 3. Color & State Logic
-const styles = {
-  dark: {
-    active: "bg-surface-primary-invert text-text-primary-invert border-border-secondary",
-    inactive: "text-text-secondary border-border-tertiary cursor-not-allowed"
-  },
-  light: {
-    active: "bg-surface-primary text-text-primary border-border-primary-invert",
-    inactive: "text-text-primary-invert border-border-primary-invert cursor-not-allowed"
-  }
+const colorSchemes = {
+  dark: "bg-surface-primary-invert text-text-primary-invert border-border-secondary disabled:bg-transparent disabled:text-text-secondary disabled:border-border-tertiary",
+  light:
+    "bg-surface-primary text-text-primary border-border-primary-invert disabled:bg-transparent disabled:text-text-primary-invert disabled:border-border-primary-invert",
 };
 
-const baseClasses = "flex items-center justify-center py-2xs px-xs border transition-all duration-500 rounded-full";
+const baseClasses =
+  "flex items-center justify-center py-2xs px-xs border transition-all duration-500 rounded-full cursor-pointer disabled:cursor-not-allowed group";
 ---
 
-<button 
+<button
   id={id}
-  disabled={state === 'inactive'}
+  disabled={state === "inactive"}
+  aria-label={`Go ${direction}`}
+  data-state={state}
   class:list={[
-    baseClasses, 
-    rotations[direction], 
-    styles[color][state], 
-    className
+    baseClasses,
+    rotations[direction],
+    colorSchemes[color],
+    className,
   ]}
 >
-    <svg
-        width="20"
-        height="11"
-        viewBox="0 0 20 11"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-auto"
-    >
-        <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M0 5.50703V5.07734C0.328125 4.63847 0.412617 4.70488 1.73825 4.70488C17.7814 4.70488 17.7787 4.70417 17.87 4.71109C18.0984 4.72843 17.8496 4.57757 15.9032 2.63116C14.1572 0.885141 14.0801 0.876313 14.1126 0.545258C14.1497 0.167874 14.6473 -0.29658 15.1966 0.252054C15.5702 0.625257 19.7743 4.82441 19.8604 4.92359C19.8758 4.94136 19.989 5.10085 20 5.1164V5.46796C19.8473 5.69257 19.8295 5.7105 19.8113 5.72874C19.4558 6.08562 16.2591 9.29492 15.3584 10.1809C14.9128 10.6191 14.1304 10.118 14.4126 9.5C14.441 9.43778 14.433 9.43207 17.0989 6.76613C17.9225 5.94257 17.9646 5.92746 17.9204 5.88417C17.9184 5.88222 17.9184 5.88242 1.69918 5.88242C0.402969 5.88242 0.313515 5.95214 0 5.50703Z"
-            fill="currentColor" 
-        ></path>
-    </svg>
+  <svg
+    width="20"
+    height="11"
+    viewBox="0 0 20 11"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-5 h-auto transition-transform duration-300 group-hover:translate-x-0.5 group-active:scale-95 group-disabled:translate-x-0"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M0 5.50703V5.07734C0.328125 4.63847 0.412617 4.70488 1.73825 4.70488C17.7814 4.70488 17.7787 4.70417 17.87 4.71109C18.0984 4.72843 17.8496 4.57757 15.9032 2.63116C14.1572 0.885141 14.0801 0.876313 14.1126 0.545258C14.1497 0.167874 14.6473 -0.29658 15.1966 0.252054C15.5702 0.625257 19.7743 4.82441 19.8604 4.92359C19.8758 4.94136 19.989 5.10085 20 5.1164V5.46796C19.8473 5.69257 19.8295 5.7105 19.8113 5.72874C19.4558 6.08562 16.2591 9.29492 15.3584 10.1809C14.9128 10.6191 14.1304 10.118 14.4126 9.5C14.441 9.43778 14.433 9.43207 17.0989 6.76613C17.9225 5.94257 17.9646 5.92746 17.9204 5.88417C17.9184 5.88222 17.9184 5.88242 1.69918 5.88242C0.402969 5.88242 0.313515 5.95214 0 5.50703Z"
+      fill="currentColor"></path>
+  </svg>
 </button>

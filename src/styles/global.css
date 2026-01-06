@@ -82,7 +82,8 @@ h6 {
   font-family: "Instrument Serif";
   font-weight: 400;
   font-style: normal;
-  src: url(../assets/fonts/InstrumentSerif-Regular.ttf);
+  font-display: swap;
+  src: url(../assets/fonts/InstrumentSerif-Regular.woff2) format("woff2");
 }
 
 
@@ -90,7 +91,8 @@ h6 {
   font-family: "Instrument Serif";
   font-weight: 400;
   font-style: italic;
-  src: url(../assets/fonts/InstrumentSerif-Italic.ttf);
+  font-display: swap;
+  src: url(../assets/fonts/InstrumentSerif-Italic.woff2) format("woff2");
 }
 
 
@@ -98,7 +100,8 @@ h6 {
   font-family: "Instrument Sans";
   font-weight: 400;
   font-style: normal;
-  src: url(../assets/fonts/InstrumentSans-Regular.ttf);
+  font-display: swap;
+  src: url(../assets/fonts/InstrumentSans-Regular.woff2) format("woff2");
 }
 
 
@@ -106,7 +109,8 @@ h6 {
   font-family: "Instrument Sans";
   font-weight: 400;
   font-style: italic;
-  src: url(../assets/fonts/InstrumentSans-Italic.ttf);
+  font-display: swap;
+  src: url(../assets/fonts/InstrumentSans-Italic.woff2) format("woff2");
 }
 
 
@@ -114,7 +118,8 @@ h6 {
   font-family: "Instrument Sans";
   font-weight: 600;
   font-style: normal;
-  src: url(../assets/fonts/InstrumentSans-SemiBold.ttf);
+  font-display: swap;
+  src: url(../assets/fonts/InstrumentSans-SemiBold.woff2) format("woff2");
 }
 
 
@@ -122,13 +127,14 @@ h6 {
   font-family: "Instrument Sans";
   font-weight: 600;
   font-style: italic;
-  src: url(../assets/fonts/InstrumentSans-SemiBoldItalic.ttf);
+  font-display: swap;
+  src: url(../assets/fonts/InstrumentSans-SemiBoldItalic.woff2) format("woff2");
 }
 
 
 
-@theme{
-    /* Primitives: Neutrals */
+@theme {
+  /* Primitives: Neutrals */
   --color-neutral-white: #F7F3E8;
   --color-neutral-white-20: rgba(247, 243, 232, 0.2);
   --color-neutral-100: #E1DDD3;
@@ -141,6 +147,7 @@ h6 {
   --color-neutral-800: #2F2F2D;
   --color-neutral-900: #1A1A18;
 
+
   /* Primitives: Primaries */
   --color-primary-glow: #F9E5C6;
   --color-primary-100: #FCCA86;
@@ -149,17 +156,17 @@ h6 {
   --color-primary-400: #C15B28;
   --color-primary-500: #9A431B;
   --color-primary-600: #591C05;
-
   --color-transparent: transparent;
 
-  
-    /* Semantic: Buttons */
+
+  /* Semantic: Buttons */
   --color-button-primary: var(--color-transparent);
   --color-button-primary-hover: var(--color-neutral-white);
   --color-button-secondary: var(--color-primary-400);
   --color-button-secondary-hover: var(--color-neutral-900);
   --color-button-tertiary: var(--color-transparent);
   --color-button-tertiary-hover: var(--color-neutral-900);
+
 
   /* Semantic: Border */
   --color-border-primary: var(--color-neutral-200);
@@ -169,6 +176,7 @@ h6 {
   --color-border-primary-invert: var(--color-neutral-white);
   --color-border-secondary-invert: var(--color-primary-400);
 
+
   /* Semantic: Surface */
   --color-surface-primary: var(--color-neutral-white);
   --color-surface-secondary: var(--color-primary-400);
@@ -177,6 +185,7 @@ h6 {
   --color-surface-secondary-invert: var(--color-neutral-500);
   --color-surface-tertiary-invert: var(--color-primary-100);
   --color-surface-glass-effect: var(--color-neutral-white-20);
+
 
   /* Semantic: Text */
   --color-text-primary: var(--color-neutral-900);
@@ -201,6 +210,7 @@ h6 {
   /* Font Families */
   --font-instrument-serif: "Instrument Serif", serif;
   --font-instrument-sans: "Instrument Sans", sans-serif;
+
 
   /* Max Widths & Margins */
   --max-width-container: 100%;
@@ -236,7 +246,6 @@ h6 {
   --line-height-xs: 1.25rem;
 
 
-
   /* SPACING PRIMITIVES: MOBILE (Default) */
   --spacing-4xs: 0.25rem;
   --spacing-3xs: 0.5rem;
@@ -260,6 +269,7 @@ h6 {
   --spacing-13xl: 11rem;
   --spacing-14xl: 11rem;
 
+  
   /* Corner Radius: Mobile */
   --radius-xsmall: 0.25rem;
   --radius-small: 0.5rem;

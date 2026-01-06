@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import Arrow from "./Arrow.astro";
 import reviewBg from "../assets/pictures/review-bg.png";
 
@@ -25,13 +24,13 @@ const reviews = [
     id="reviews-section"
 >
     <div class="flex flex-col justify-between h-full relative z-10">
-        <div class="relative h-64 md:h-auto">
+        <div class="grid grid-cols-1 grid-rows-1">
             {
                 reviews.map((review, index) => (
                     <div
-                        class="review-slide absolute inset-0 w-full md:w-6/12 flex flex-col gap-lg transition-all duration-700 ease-in-out"
+                        class="review-slide col-start-1 row-start-1 w-full md:w-6/12 flex flex-col gap-lg transition-all duration-700 ease-in-out"
                         data-index={index}
-                        style={index === 0 ? "opacity: 1; transform: translateX(0); z-index: 20;" : "opacity: 0; transform: translateX(30px); z-index: 10; pointer-events: none;"}
+                        data-active={index === 0 ? "true" : "false"}
                     >
                         <blockquote class="title-xl text-text-primary-invert">
                             “{review.quote}”
@@ -61,71 +60,66 @@ const reviews = [
     </div>
 </section>
 
+<style>
+    .review-slide {
+        opacity: 0;
+        transform: translateX(30px);
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .review-slide[data-active="true"] {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+        visibility: visible;
+        z-index: 20;
+    }
+</style>
+
 <script>
-    const slides = document.querySelectorAll('.review-slide');
-    const prevBtn = document.getElementById('rev-prev') as HTMLButtonElement;
-    const nextBtn = document.getElementById('rev-next') as HTMLButtonElement;
-    
+    const slides = document.querySelectorAll(".review-slide");
+    const prevBtn = document.getElementById("rev-prev") as HTMLButtonElement;
+    const nextBtn = document.getElementById("rev-next") as HTMLButtonElement;
+
     let currentIndex = 0;
     const totalSlides = slides.length;
 
     function updateReviews() {
         if (!prevBtn || !nextBtn) return;
 
-        // 1. Update Slide Visibility
         slides.forEach((slide, i) => {
-            const s = slide as HTMLElement;
-            if (i === currentIndex) {
-                s.style.opacity = "1";
-                s.style.transform = "translateX(0)";
-                s.style.zIndex = "20";
-                s.style.pointerEvents = "auto";
-            } else {
-                s.style.opacity = "0";
-                s.style.transform = "translateX(30px)";
-                s.style.zIndex = "10";
-                s.style.pointerEvents = "none";
-            }
+            slide.setAttribute(
+                "data-active",
+                i === currentIndex ? "true" : "false",
+            );
         });
 
-        // 2. Update Prev Arrow State (Disabled at Start)
-        if (currentIndex === 0) {
-            prevBtn.disabled = true;
-            prevBtn.classList.add("text-text-primary-invert", "border-border-primary-invert", "cursor-not-allowed");
-            prevBtn.classList.remove("bg-surface-primary", "text-text-primary", "border-border-primary-invert", "cursor-pointer");
-        } else {
-            prevBtn.disabled = false;
-            prevBtn.classList.remove("text-text-primary-invert", "border-border-primary-invert", "cursor-not-allowed");
-            prevBtn.classList.add("bg-surface-primary", "text-text-primary", "border-border-primary-invert", "cursor-pointer");
-        }
+        currentIndex === 0
+            ? (prevBtn.setAttribute("disabled", "true"),
+              prevBtn.setAttribute("data-state", "inactive"))
+            : (prevBtn.removeAttribute("disabled"),
+              prevBtn.setAttribute("data-state", "active"));
 
-        // 3. Update Next Arrow State (Disabled at End)
-        if (currentIndex === totalSlides - 1) {
-            nextBtn.disabled = true;
-            nextBtn.classList.add("text-text-primary-invert", "border-border-primary-invert", "cursor-not-allowed");
-            nextBtn.classList.remove("bg-surface-primary", "text-text-primary", "border-border-primary-invert", "cursor-pointer");
-        } else {
-            nextBtn.disabled = false;
-            nextBtn.classList.remove("text-text-primary-invert", "border-border-primary-invert", "cursor-not-allowed");
-            nextBtn.classList.add("bg-surface-primary", "text-text-primary", "border-border-primary-invert", "cursor-pointer");
-        }
+        currentIndex === totalSlides - 1
+            ? (nextBtn.setAttribute("disabled", "true"),
+              nextBtn.setAttribute("data-state", "inactive"))
+            : (nextBtn.removeAttribute("disabled"),
+              nextBtn.setAttribute("data-state", "active"));
     }
 
-    // Click Events
-    nextBtn?.addEventListener('click', () => {
+    nextBtn?.addEventListener("click", () => {
         if (currentIndex < totalSlides - 1) {
             currentIndex++;
             updateReviews();
         }
     });
-
-    prevBtn?.addEventListener('click', () => {
+    prevBtn?.addEventListener("click", () => {
         if (currentIndex > 0) {
             currentIndex--;
             updateReviews();
         }
     });
 
-    // Initialize state
     updateReviews();
 </script>

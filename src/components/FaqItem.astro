@@ -8,71 +8,73 @@ const { question, answer } = Astro.props;
 ---
 
 <div
-  class="border-b border-border-primary last:border-none group overflow-hidden first:pt-0 py-sm"
+  class="faq-item border-b border-border-primary last:border-none group overflow-hidden first:pt-0 py-sm"
 >
   <button
-    class="faq-trigger w-full flex justify-between items-center text-left transition-opacity focus:outline-none"
+    class="faq-trigger w-full flex justify-between items-center text-left transition-opacity focus:outline-none cursor-pointer group/btn"
     aria-expanded="false"
   >
     <h3 class="title-sm text-text-primary text-wrap!">
       {question}
     </h3>
     <div class="relative w-3.5 h-3.5 shrink-0">
-      <div class="absolute inset-0 m-auto w-full h-[1.5px] bg-text-primary">
+      <div
+        class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1.5px] bg-text-primary"
+      >
       </div>
       <div
-        class="faq-plus-vertical absolute right-1.5 -top-1.5 m-auto h-full w-[1.5px] bg-text-primary transition-transform duration-500 ease-out"
+        class="faq-plus-vertical absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1.5px] bg-text-primary transition-transform duration-500 ease-out"
       >
       </div>
     </div>
   </button>
 
   <div
-    class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out"
+    class="faq-content grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out"
   >
-    <div class="pt-2xs">
-      <p class="body-sm text-text-primary">
-        {answer}
-      </p>
+    <div class="overflow-hidden">
+      <div class="pt-2xs pb-xs">
+        <p class="body-sm text-text-primary">
+          {answer}
+        </p>
+      </div>
     </div>
   </div>
 </div>
 
-<script>
-  function setupFaq() {
-    const triggers = document.querySelectorAll(".faq-trigger");
-
-    triggers.forEach((trigger) => {
-      trigger.addEventListener("click", () => {
-        const parent = trigger.parentElement;
-        const content = trigger.nextElementSibling as HTMLElement;
-        const verticalLine = trigger.querySelector(
-          ".faq-plus-vertical",
-        ) as HTMLElement;
-        const isOpen = trigger.getAttribute("aria-expanded") === "true";
-
-        // Close other items in the whole section (Ayocin behavior)
-        if (!isOpen) {
-          document.querySelectorAll(".faq-trigger").forEach((other) => {
-            other.setAttribute("aria-expanded", "false");
-            (other.nextElementSibling as HTMLElement).style.maxHeight = "0";
-            (
-              other.querySelector(".faq-plus-vertical") as HTMLElement
-            ).style.transform = "rotate(0deg)";
-          });
-        }
-
-        // Toggle current item
-        trigger.setAttribute("aria-expanded", !isOpen ? "true" : "false");
-        content.style.maxHeight = !isOpen ? `${content.scrollHeight}px` : "0";
-        verticalLine.style.transform = !isOpen
-          ? "rotate(90deg)"
-          : "rotate(0deg)";
-      });
-    });
+<style>
+  .faq-trigger[aria-expanded="true"] .faq-plus-vertical {
+    transform: rotate(90deg);
   }
 
-  // Support for standard load and View Transitions
+  .faq-trigger[aria-expanded="true"] + .faq-content {
+    grid-template-rows: 1fr;
+  }
+</style>
+
+<script>
+  function setupFaq() {
+    const allTriggers = document.querySelectorAll(".faq-trigger");
+
+    allTriggers.forEach((trigger) => {
+      trigger.removeEventListener("click", toggleFaq);
+      trigger.addEventListener("click", toggleFaq);
+    });
+
+    function toggleFaq(e) {
+      const btn = e.currentTarget;
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+      if (!isOpen) {
+        allTriggers.forEach((other) => {
+          if (other !== btn) other.setAttribute("aria-expanded", "false");
+        });
+      }
+
+      btn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+    }
+  }
+
   setupFaq();
   document.addEventListener("astro:after-swap", setupFaq);
 </script>
