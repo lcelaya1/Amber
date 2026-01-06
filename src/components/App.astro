@@ -1,0 +1,123 @@
+---
+import { Image } from "astro:assets";
+import appScreen1 from "../assets/pictures/app-morning.png";
+import appScreen2 from "../assets/pictures/app-environment.png";
+import appScreen3 from "../assets/pictures/app-insight.png";
+
+const appFeatures = [
+    {
+        id: "morning",
+        title: "Morning Check-in",
+        description: "Stop analyzing graphs the moment you open your eyes. Just tap an emoji to log how you feel. It takes 3 seconds and prioritizes your subjective experience over raw algorithms.",
+        image: appScreen1,
+    },
+    {
+        id: "environment",
+        title: "Connect the dots",
+        description: "Amber correlates your mood with invisible environmental factors. Discover if a spike in CO2, low humidity, or temperature shifts impacted your deep sleep.",
+        image: appScreen2,
+    },
+    {
+        id: "rhythms",
+        title: "Weekly Rhythms",
+        description: "Zoom out when you’re ready. View long-term trends in sleep consistency and room health in a calm, hidden dashboard designed for reflection, not judgment.",
+        image: appScreen3,
+    },
+];
+---
+
+<section class="bg-surface-primary relative py-9xl md:py-4xl" id="app-sticky-section">
+    <div class="relative" style={`height: ${appFeatures.length * 100}vh;`}>
+        
+        <div class="sticky top-0 md:py-5xl w-full flex items-center overflow-hidden">
+            <div class="px-container w-full flex flex-col md:flex-row justify-between gap-xl md:gap-0">
+                
+                <div class="md:w-4/12 flex flex-col md:h-2xl justify-between gap-xl md:gap-0">
+                    <h2 class="title-2xl text-text-primary">
+                        Your sleep rhythm, revealed
+                    </h2>
+
+                    <div class="relative h-48">
+                        {appFeatures.map((feature, index) => (
+                            <div 
+                                class="app-description absolute inset-0 flex flex-col gap-xs transition-opacity duration-500"
+                                data-index={index}
+                                style={index === 0 ? "opacity: 1;" : "opacity: 0;"}
+                            >
+                                <h3 class="title-lg text-text-primary">{feature.title}</h3>
+                                <p class="body-md text-text-primary">{feature.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div class="md:w-7/12 relative h-md md:h-2xl w-full rounded-medium overflow-hidden shadow-xl">
+                    {appFeatures.map((feature, index) => (
+                        <div 
+                            class="app-layer absolute inset-0 w-full h-full will-change-[clip-path]"
+                            data-index={index}
+                            style={`z-index: ${appFeatures.length - index}; clip-path: inset(0% 0% 0% 0%);`}
+                        >
+                            <Image 
+                                src={feature.image} 
+                                alt={feature.title} 
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const section = document.getElementById('app-sticky-section');
+    const layers = document.querySelectorAll('.app-layer');
+    const texts = document.querySelectorAll('.app-description');
+
+    function updateAnimation() {
+        if (!section) return;
+
+        const sectionRect = section.getBoundingClientRect();
+        const maxScroll = section.offsetHeight - window.innerHeight;
+        const progress = Math.max(0, Math.min(1, -sectionRect.top / maxScroll));
+        
+        const totalFeatures = layers.length;
+
+        // Calculate which index is currently "active" based on scroll progress
+        // We multiply progress by (total - 1) to find which segment we are in
+        const activeIndex = Math.round(progress * (totalFeatures - 1));
+
+        layers.forEach((layer, i) => {
+            const layerElement = layer as HTMLElement;
+            const textElement = texts[i] as HTMLElement;
+            
+            // 1. CLIP-PATH REVEAL LOGIC
+            if (i < totalFeatures - 1) {
+                const start = i / (totalFeatures - 1);
+                const end = (i + 1) / (totalFeatures - 1);
+                
+                let layerProgress = (progress - start) / (end - start);
+                layerProgress = Math.max(0, Math.min(1, layerProgress));
+                
+                layerElement.style.clipPath = `inset(0% 0% ${layerProgress * 100}% 0%)`;
+            } else {
+                layerElement.style.clipPath = `inset(0% 0% 0% 0%)`;
+            }
+
+            // 2. INSTANT TEXT SWITCHING (No Opacity)
+            if (i === activeIndex) {
+                textElement.style.display = "flex";
+                // Ensure it's fully visible
+                textElement.style.opacity = "1"; 
+            } else {
+                textElement.style.display = "none";
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateAnimation, { passive: true });
+    window.addEventListener('resize', updateAnimation);
+    updateAnimation();
+</script>

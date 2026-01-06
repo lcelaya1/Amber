@@ -1,0 +1,78 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+}
+
+const { question, answer } = Astro.props;
+---
+
+<div
+  class="border-b border-border-primary last:border-none group overflow-hidden first:pt-0 py-sm"
+>
+  <button
+    class="faq-trigger w-full flex justify-between items-center text-left transition-opacity focus:outline-none"
+    aria-expanded="false"
+  >
+    <h3 class="title-sm text-text-primary text-wrap!">
+      {question}
+    </h3>
+    <div class="relative w-3.5 h-3.5 flex-shrink-0">
+      <div class="absolute inset-0 m-auto w-full h-[1.5px] bg-text-primary">
+      </div>
+      <div
+        class="faq-plus-vertical absolute right-1.5 -top-1.5 m-auto h-full w-[1.5px] bg-text-primary transition-transform duration-500 ease-out"
+      >
+      </div>
+    </div>
+  </button>
+
+  <div
+    class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out"
+  >
+    <div class="pt-2xs">
+      <p class="body-sm text-text-primary">
+        {answer}
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupFaq() {
+    const triggers = document.querySelectorAll(".faq-trigger");
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const parent = trigger.parentElement;
+        const content = trigger.nextElementSibling as HTMLElement;
+        const verticalLine = trigger.querySelector(
+          ".faq-plus-vertical",
+        ) as HTMLElement;
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+        // Close other items in the whole section (Ayocin behavior)
+        if (!isOpen) {
+          document.querySelectorAll(".faq-trigger").forEach((other) => {
+            other.setAttribute("aria-expanded", "false");
+            (other.nextElementSibling as HTMLElement).style.maxHeight = "0";
+            (
+              other.querySelector(".faq-plus-vertical") as HTMLElement
+            ).style.transform = "rotate(0deg)";
+          });
+        }
+
+        // Toggle current item
+        trigger.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+        content.style.maxHeight = !isOpen ? `${content.scrollHeight}px` : "0";
+        verticalLine.style.transform = !isOpen
+          ? "rotate(90deg)"
+          : "rotate(0deg)";
+      });
+    });
+  }
+
+  // Support for standard load and View Transitions
+  setupFaq();
+  document.addEventListener("astro:after-swap", setupFaq);
+</script>

@@ -4,16 +4,18 @@ interface Props {
   href?: string;
   variant?: 'primary' | 'secondary' | 'tertiary';
   class?: string;
+  id?: string;
 }
 
 const { 
   text, 
   href = "#", 
   variant = 'primary', 
-  class: className 
+  class: className,
+  id
 } = Astro.props;
 
-const baseStyles = "inline-block px-xs py-3xs rounded-xlarge transition-all duration-500 body-sm text-center border w-fit";
+const baseStyles = "inline-block px-xs py-3xs rounded-xlarge transition-all duration-500 body-sm text-center border w-fit focus:outline-none";
 
 const variants = {
   // Top left: Ghost with border -> Bottom left: Cream/Tan fill
@@ -27,6 +29,6 @@ const variants = {
 };
 ---
 
-<a href={href} class:list={[baseStyles, variants[variant], className]}>
+<a id={id} href={href} class:list={[baseStyles, variants[variant], className]}>
   {text}
 </a>

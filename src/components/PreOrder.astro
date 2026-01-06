@@ -1,0 +1,74 @@
+---
+import { Image } from "astro:assets";
+import preOrderBg from "../assets/pictures/preorder-bg.png";
+import Button from "./Button.astro";
+
+const inclusions = [
+    "Amber Sleep Hub",
+    "Lifetime App Access (No Subscription)",
+    '30-Night "Sleep on it" Guarantee',
+];
+---
+
+<section
+    class="relative w-full min-h-screen flex items-center md:items-end justify-center md:justify-end px-container overflow-hidden bg-cover bg-right md:bg-center py-xl"
+    style={`background-image: url(${preOrderBg.src});`}
+>
+    <div
+        class="bg-surface-primary md:w-5/12 py-lg px-md rounded-medium flex flex-col gap-md"
+    >
+        <Image
+            src={preOrderBg}
+            alt="PreOrder Background"
+            class="h-72 w-full object-cover rounded-medium md:hidden!"
+        />
+        <div class="flex flex-col gap-2xs">
+            <h2 class="title-lg text-text-primary">Pre-order Amber</h2>
+            <p class="body-sm text-text-primary hidden md:block">
+                Be among the first to invite Amber into your home.
+            </p>
+            <hr class="border-border-primary" />
+            <div class="flex flex-col gap-4xs body-sm text-text-primary">
+                <p>Includes:</p>
+                {
+                    inclusions.map((item) => (
+                        <li class="flex items-center gap-4xs">
+                            <svg
+                                width="12"
+                                height="13"
+                                viewBox="0 0 12 13"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M2.528 12.32C2.528 12.1813 2.50133 12.112 2.448 12.112L2.08 12.288C2.08 12.2133 2.03733 12.16 1.952 12.128L1.824 12.112C1.73867 12.112 1.632 12.1493 1.504 12.224C1.48267 12.1707 1.456 12.1173 1.424 12.064C1.392 12.0107 1.36533 11.9627 1.344 11.92C1.20533 11.6533 1.06667 11.36 0.928 11.04C0.8 10.7093 0.677333 10.3947 0.56 10.096C0.453333 9.79733 0.368 9.56267 0.304 9.392C0.261333 9.25333 0.213333 9.04533 0.16 8.768C0.106667 8.49067 0.0533333 8.13867 0 7.712C0.117333 7.78667 0.208 7.824 0.272 7.824C0.346667 7.824 0.416 7.712 0.48 7.488C0.512 7.53067 0.570667 7.552 0.656 7.552C0.72 7.552 0.768 7.53067 0.8 7.488L1.056 7.104L1.344 7.2H1.36C1.38133 7.2 1.40267 7.18933 1.424 7.168C1.44533 7.14667 1.47733 7.12533 1.52 7.104C1.60533 7.05067 1.66933 7.024 1.712 7.024L1.76 7.04C2.02667 7.168 2.19733 7.40267 2.272 7.744C2.464 8.55467 2.656 8.96 2.848 8.96C3.04 8.96 3.264 8.75733 3.52 8.352C3.648 8.14933 3.776 7.91467 3.904 7.648C4.04267 7.38133 4.18133 7.08267 4.32 6.752C4.34133 6.88 4.36267 6.944 4.384 6.944C4.43733 6.944 4.528 6.81067 4.656 6.544C4.79467 6.27733 5.01333 5.90933 5.312 5.44C5.48267 5.152 5.696 4.82667 5.952 4.464C6.21867 4.10133 6.50133 3.728 6.8 3.344C7.09867 2.96 7.38667 2.59733 7.664 2.256C7.952 1.91467 8.208 1.62133 8.432 1.376C8.656 1.13067 8.82133 0.970666 8.928 0.896C9.33333 0.618666 9.65333 0.352 9.888 0.0959997C9.87733 0.170666 9.86133 0.239999 9.84 0.304C9.82933 0.357333 9.824 0.394666 9.824 0.415999C9.824 0.458666 9.84533 0.48 9.888 0.48L10.336 0.256V0.32C10.336 0.405333 10.3573 0.448 10.4 0.448C10.432 0.448 10.496 0.4 10.592 0.304C10.688 0.208 10.7413 0.138666 10.752 0.0959997L10.72 0.32L11.264 0L11.136 0.288C11.3067 0.170666 11.4293 0.112 11.504 0.112C11.5467 0.112 11.5787 0.138666 11.6 0.191999C11.6213 0.234666 11.632 0.277333 11.632 0.32C11.632 0.384 11.6053 0.458666 11.552 0.544C11.4987 0.629333 11.4293 0.730666 11.344 0.848C11.28 0.933333 11.1733 1.06133 11.024 1.232C10.8853 1.392 10.672 1.632 10.384 1.952C10.096 2.26133 9.712 2.69333 9.232 3.248C9.104 3.38667 8.90667 3.632 8.64 3.984C8.37333 4.32533 8.06933 4.72533 7.728 5.184C7.39733 5.632 7.06667 6.08533 6.736 6.544C6.40533 7.00267 6.112 7.41867 5.856 7.792C5.6 8.15467 5.41867 8.42667 5.312 8.608L4.32 10.288C4.10667 10.6507 3.93067 10.9493 3.792 11.184C3.65333 11.408 3.54667 11.5627 3.472 11.648C3.312 11.84 3.136 12.0107 2.944 12.16L2.8 12.08L2.672 12.16L2.528 12.32Z"
+                                    fill="#1A1A18"
+                                />
+                            </svg>
+                            {item}
+                        </li>
+                    ))
+                }
+            </div>
+            <p class="body-sm text-text-primary">
+                Estimated deliveries for pre-orders: February 2026
+            </p>
+
+            <hr class="border-border-primary" />
+
+            <p class="body-sm font-semibold text-text-primary">
+                Pre-order price: €349
+            </p>
+
+            <hr class="border-border-primary" />
+        </div>
+
+        <div class="flex flex-col gap-xs">
+            <Button text="Pre-order Amber" variant="secondary" class="w-full" />
+            <p class="body-xs text-text-primary">
+                By clicking "Pre-order Amber" you agree to our 
+                <span class="underline">terms</span>.
+            </p>
+        </div>
+    </div>
+</section>

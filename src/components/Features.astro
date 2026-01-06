@@ -1,0 +1,186 @@
+---
+import trackingImg from "../assets/pictures/tech-tracking.png";
+import displayImg from "../assets/pictures/tech-display.png";
+import sensorsImg from "../assets/pictures/tech-sensors.png";
+import controlImg from "../assets/pictures/tech-control.png";
+import audioImg from "../assets/pictures/tech-audio.png";
+import breathingImg from "../assets/pictures/tech-breathing.png";
+import Arrow from "./Arrow.astro";
+
+const features = [
+    {
+        title: "Contactless Sleep Tracking",
+        description:
+            "A silent radar detects your sleep stages and breathing rate through the covers, accurately mapping your sleep without ever watching you.",
+        image: trackingImg,
+    },
+    {
+        title: "Phantom Wood Display",
+        description:
+            "The time shines clearly through the natural wood when you need it, and vanishes completely when you don't, ensuring zero light pollution.",
+        image: displayImg,
+    },
+    {
+        title: "Ambient Sensors",
+        description:
+            "Amber monitors CO2, temperature, and humidity levels to help you understand how air quality impacts your deep sleep.",
+        image: sensorsImg,
+    },
+    {
+        title: "Blind Control System",
+        description:
+            "Adjust volume, light, or snooze the alarm using intuitive touch controls on the wood, no need to open your eyes or look at a screen.",
+        image: controlImg,
+    },
+    {
+        title: "Immersive Audio",
+        description:
+            "A 360° speaker fills the room with deep Brown Noise or guided meditations. No microphones included, Amber speaks, but never listens.",
+        image: audioImg,
+    },
+    {
+        title: "Breathing Light",
+        description:
+            "The light pulses in a slow, organic rhythm, guiding your breath to lower your heart rate and calm your mind without saying a word.",
+        image: breathingImg,
+    },
+];
+---
+
+<section class="bg-surface-primary pt-7xl overflow-hidden">
+    <div class="flex flex-col gap-3xl">
+        <div
+            class="flex flex-col md:flex-row md:justify-between md:items-end mb-6xl md:mb-9xl gap-lg px-container"
+        >
+            <div class="md:max-w-7/12 flex flex-col gap-xs">
+                <h2 class="title-2xl text-text-primary mb-sm">
+                    Invisible Intelligence
+                </h2>
+                <p class="body-md text-text-primary">
+                    Advanced bio-sensing technology hidden inside natural
+                    materials. No cameras. No microphones. No wearables.
+                </p>
+            </div>
+
+            <div class="flex gap-xs justify-end">
+                <Arrow
+                    id="prev"
+                    direction="left"
+                    color="dark"
+                    state="inactive"
+                />
+                <Arrow
+                    id="next"
+                    direction="right"
+                    color="dark"
+                    state="active"
+                />
+            </div>
+        </div>
+
+        <div
+            id="carousel"
+            class="flex gap-lg overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-pl-container pl-container pr-container"
+        >
+            {
+                features.map((feature) => (
+                    /* md:w-[30%] ensures the 4th card "peeks" in from the right */
+                    <div class="flex-none w-[92vw] md:w-[31.75%] snap-start flex flex-col gap-xs">
+                        <div
+                            class="w-full h-md bg-cover bg-center rounded-medium"
+                            style={`background-image: url(${feature.image.src});`}
+                        />
+                        <div class="flex flex-col gap-3xs md:gap-2xs">
+                            <h3 class="title-md text-text-primary">
+                                {feature.title}
+                            </h3>
+                            <p class="body-sm text-text-primary">
+                                {feature.description}
+                            </p>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+</style>
+
+
+<script>
+    const carousel = document.getElementById("carousel");
+    const prevBtn = document.getElementById("prev") as HTMLButtonElement;
+    const nextBtn = document.getElementById("next") as HTMLButtonElement;
+
+    function updateArrowStates() {
+        if (!carousel || !prevBtn || !nextBtn) return;
+
+        // Use Math.ceil to avoid sub-pixel rounding issues
+        const scrollLeft = Math.ceil(carousel.scrollLeft);
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+        // 1. Check if at the start (Left Arrow)
+        // Increased tolerance to 10px for better reliability
+        const isAtStart = scrollLeft <= 10;
+        
+        prevBtn.disabled = isAtStart;
+        if (isAtStart) {
+            prevBtn.classList.add("text-text-secondary",
+                "border-border-tertiary",
+                "cursor-not-allowed");
+            prevBtn.classList.remove("bg-surface-primary-invert", "text-text-primary-invert", "border-border-secondary", "cursor-pointer");
+        } else {
+            prevBtn.classList.remove("text-text-secondary",
+                "border-border-tertiary",
+                "cursor-not-allowed");
+            prevBtn.classList.add("bg-surface-primary-invert", "text-text-primary-invert", "border-border-secondary", "cursor-pointer");
+        }
+
+        // 2. Check if at the end (Right Arrow)
+        // Increased tolerance to 20px to account for the large 'pr-[20vw]' padding
+        const isAtEnd = scrollLeft >= maxScroll - 20;
+        
+        nextBtn.disabled = isAtEnd;
+        if (isAtEnd) {
+            nextBtn.classList.add("text-text-secondary",
+                "border-border-tertiary",
+                "cursor-not-allowed");
+            nextBtn.classList.remove("bg-surface-primary-invert", "text-text-primary-invert", "border-border-secondary", "cursor-pointer");
+        } else {
+            nextBtn.classList.remove("text-text-secondary",
+                "border-border-tertiary",
+                "cursor-not-allowed");
+            nextBtn.classList.add("bg-surface-primary-invert", "text-text-primary-invert", "border-border-secondary");
+        }
+    }
+
+    carousel?.addEventListener("scroll", updateArrowStates);
+    window.addEventListener("resize", updateArrowStates); // Check again if window is resized
+    updateArrowStates();
+
+    // Updated Click Logic to match your 38.5% width
+    nextBtn?.addEventListener("click", () => {
+        carousel?.scrollBy({
+            left: carousel.clientWidth * 0.4, // Scrolls roughly one card width
+            behavior: "smooth",
+        });
+    });
+
+    prevBtn?.addEventListener("click", () => {
+        carousel?.scrollBy({
+            left: -carousel.clientWidth * 0.4,
+            behavior: "smooth",
+        });
+    });
+</script>

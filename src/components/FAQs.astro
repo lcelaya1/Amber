@@ -1,0 +1,89 @@
+---
+import FaqItem from "./FaqItem.astro";
+
+const faqData = [
+  {
+    category: "THE DEVICE & USAGE",
+    items: [
+      {
+        q: "What exactly can Amber do right now?",
+        a: "At its core, Amber is a circadian sleep hub designed to help you reclaim your rhythm. Currently, the core features include the Sunrise Alarm, the Sunset Wind-Down mode (red light), the Contactless Sleep Tracking (via radar), and the basic Environmental Monitoring (CO2 / Temp). The 'Morning Insight' App allows you to check in with emojis and view your sleep trends. We are still refining the 'Smart Home Integration' (like connecting to Philips Hue or Alexa). We want to nail the standalone experience first before we let other devices talk to Amber.",
+      },
+      {
+        q: "Will it work if I sleep with a partner or a pet?",
+        a: "This is a question we get a lot! The short answer is: Yes, but with some nuance. Amber's radar is directional. We've tuned it to focus on the person sleeping closest to the device (on the nightstand side). It's designed to filter out movement from the other side of the bed. Note: If a large dog jumps directly between you and the lamp, it might confuse the sensor for a moment. We are constantly tweaking the algorithm to handle these 'furry interruptions' better based on beta feedback.",
+      },
+      {
+        q: "Can I use it without the App?",
+        a: "We built Amber to be 'screen-optional.' You will need the App for the initial WiFi setup and if you want to see your sleep data trends. But for the daily ritual (turning it on, snoozing the alarm, changing the volume) you never need to touch your phone. The Blind Control system on the wood base handles everything physically. We want you to be able to leave your phone in the kitchen overnight if you choose to.",
+      },
+    ],
+  },
+  {
+    category: "PRIVACY & TECHNOLOGY",
+    items: [
+      {
+        q: "Does it record audio or video?",
+        a: "Never. We built Amber with a strict 'No Cameras, No Microphones' philosophy. It is physically impossible for Amber to see your face or hear your intimate conversations because the hardware simply isn't there. It only detects movement and air quality. Your bedroom stays completely private.",
+      },
+      {
+        q: "Is the radar safe to have near my head?",
+        a: "We know having technology on your nightstand can be a concern, so we looked into this deeply. The 60GHz mmWave radar used in Amber emits a signal that is thousands of times weaker than your smartphone's WiFi or 5G signal. It uses low-energy, non-ionizing waves that are completely safe for nightly use.",
+      },
+      {
+        q: 'Why "No Cameras"? How does the tracking actually work?',
+        a: "We made a very intentional choice to keep cameras out of the bedroom. We believe your sanctuary should be private. Instead, we use a 60GHz mmWave radar hidden inside the base. Think of it like a bat's sonar; it bounces invisible, safe waves off your chest to detect the tiny movements of breathing. It's incredibly accurate for sleep staging but completely blind to your face or body image. It's privacy by design, not just a setting.",
+      },
+    ],
+  },
+  {
+    category: "ORDERS & MEMBERSHIP",
+    items: [
+      {
+        q: "Does Amber require a subscription?",
+        a: "We believe you should own your rest, not rent it. Unlike many other sleep trackers, Amber has zero monthly fees. When you purchase the device, you get lifetime access to all features, including the sleep tracking, environmental monitoring, and Morning Insights app. No paywalls, ever.",
+      },
+      {
+        q: "Why should I pre-order now?",
+        a: 'Pre-ordering isn\'t just about buying a product, it\'s about backing a philosophy. By joining now, you get Amber at a special early-bird price, but more importantly, you become part of our R&D loop. We send regular surveys to our pre-order community to ask things like "Which meditation sounds do you prefer?" or "How bright should the clock be?". Your voice literally shapes the final product shipping in February 2026.',
+      },
+      {
+        q: "What is the status of production?",
+        a: "We believe in radical transparency. Amber was designed in Barcelona and we are currently finalizing the tooling for the wood veneer base. We expect to begin mass production in December 2025. Our target for shipping the first batch is February 2026. You can follow every step of the journey (including the messy parts of manufacturing) on @amber.lamp.",
+      },
+      {
+        q: "What if I don't like it? (Return Policy)",
+        a: "We get it, buying hardware online is a leap of faith. Once Amber ships, you will have a 30-day \"Sleep on it\" trial. If you don't feel calmer or better rested, you can return it for a refund. We want you to keep it because you love it, not because you're stuck with it.",
+      },
+    ],
+  },
+];
+---
+
+<section class="bg-surface-primary py-7xl px-container">
+  <div class="flex flex-col gap-3xl">
+    <h2 class="title-2xl text-text-primary md:text-center text-wrap!">
+      Commonly asked questions
+    </h2>
+
+    <div class="flex flex-col md:gap-4xs">
+      {
+        faqData.map((section) => (
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-md md:gap-xl border-t border-border-primary last:border-b first:pt-md pt-xl md:pt-md">
+            <div class="md:col-span-4">
+              <span class="body-sm font-semibold text-surface-secondary uppercase">
+                {section.category}
+              </span>
+            </div>
+
+            <div class="md:col-span-8 flex flex-col">
+              {section.items.map((item) => (
+                <FaqItem question={item.q} answer={item.a} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
