@@ -8,14 +8,26 @@ import Button from "./Button.astro";
 
 <section class="md:px-md">
   <div
-    class="hero-container relative w-full h-4xl flex flex-col gap-5xl md:justify-between overflow-hidden bg-cover bg-center pt-2xl md:pt-md pb-6xl px-xs md:px-lg rounded-b-medium"
+    class="hero-container relative w-full h-4xl flex flex-col gap-5xl md:justify-between overflow-hidden pt-2xl md:pt-md pb-6xl px-xs md:px-lg rounded-b-medium bg-surface-primary-invert"
   >
-    <nav class="flex justify-between items-center">
+    <picture class="absolute inset-0 z-0">
+      <source media="(min-width: 640px)" srcset={desktopBg.src} />
+      <img
+        src={mobileBg.src}
+        alt=""
+        role="presentation"
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </picture>
+
+    <nav class="flex justify-between items-center relative z-10">
       <Image src={logoAmber} alt="Amber Logo" class="h-8 w-auto" />
       <Button text="Pre-order Amber" variant="primary" />
     </nav>
 
-    <div class="md:max-w-6/12 flex flex-col gap-md">
+    <div class="md:max-w-6/12 flex flex-col gap-md relative z-10">
       <p class="body-md text-text-primary-invert">
         Designed for distraction-free sleep
       </p>
@@ -31,20 +43,3 @@ import Button from "./Button.astro";
     </div>
   </div>
 </section>
-
-<style
-  define:vars={{
-    desktopUrl: `url(${desktopBg.src})`,
-    mobileUrl: `url(${mobileBg.src})`,
-  }}
->
-  .hero-container {
-    background-image: var(--mobileUrl);
-  }
-
-  @media (min-width: 600px) {
-    .hero-container {
-      background-image: var(--desktopUrl);
-    }
-  }
-</style>

@@ -4,14 +4,22 @@ import logoFooter from "../assets/pictures/logo-footer.png";
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-button-secondary pt-xl pb-lg px-container overflow-hidden">
+<footer id="footer" class="bg-button-secondary pt-xl pb-lg px-container overflow-hidden">
     <div class="flex flex-col gap-xl">
-        <Image src={logoFooter} alt="Logo Footer" class="h-full w-full" />
+        <Image
+            src={logoFooter}
+            alt="Amber"
+            class="h-auto w-full"
+            loading="lazy"
+            decoding="async"
+        />
 
         <div
             class="w-full flex flex-col md:flex-row justify-between md:items-center gap-md md:gap-0"
         >
-            <div class="flex flex-row justify-between order-3 md:order-1">
+            <div
+                class="flex flex-row justify-between md:justify-start md:gap-lg order-3 md:order-1"
+            >
                 <p
                     class="body-sm text-text-secondary-invert uppercase font-semibold"
                 >
@@ -27,17 +35,18 @@ const currentYear = new Date().getFullYear();
                 </p>
             </div>
 
-            <p
-                class="body-sm text-text-secondary-invert uppercase font-semibold order-1 md:order-2"
+            <a
+                href="#footer"
+                class="body-sm text-text-secondary-invert uppercase font-semibold hover:underline transition-opacity order-1 md:order-2"
             >
-                TERMS OF USE
-            </p>
-
-            <p
-                class="body-sm text-text-secondary-invert uppercase font-semibold order-1 md:order-2"
+                Terms of use
+            </a>
+            <a
+                href="#footer"
+                class="body-sm text-text-secondary-invert uppercase font-semibold hover:underline transition-opacity order-1 md:order-2"
             >
-                PRIVACY POLICY
-            </p>
+                Privacy policy
+            </a>
 
             <p
                 class="body-sm text-text-secondary-invert uppercase font-semibold order-4 hidden md:inline"

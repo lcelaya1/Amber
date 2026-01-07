@@ -11,7 +11,8 @@ const annotations = [
     {
         id: "wood",
         title: "Solid Ash Wood",
-        description: "Real grain, not printed plastic. Sustainably sourced materials that age beautifully and ground your space.",
+        description:
+            "Real grain, not printed plastic. Sustainably sourced materials that age beautifully and ground your space.",
         coords: "top-0 right-0",
         arrowImage: arrow1,
         arrowCoords: "top-12 right-[28%] w-52",
@@ -20,7 +21,8 @@ const annotations = [
     {
         id: "glass",
         title: "Ribbed Diffusion",
-        description: "Inspired by traditional paper lanterns. The textured glass softens every photon, turning harsh light into a gentle, candle-like glow.",
+        description:
+            "Inspired by traditional paper lanterns. The textured glass softens every photon, turning harsh light into a gentle, candle-like glow.",
         coords: "top-[32%] left-0",
         arrowImage: arrow2,
         arrowCoords: "top-[40%] left-[28%] w-44",
@@ -29,7 +31,8 @@ const annotations = [
     {
         id: "base",
         title: "Timeless Silhouette",
-        description: "With soft curves and zero visible screens or buttons, Amber it's designed to disappear into your decor.",
+        description:
+            "With soft curves and zero visible screens or buttons, Amber it's designed to disappear into your decor.",
         coords: "bottom-0 right-0",
         arrowImage: arrow3,
         arrowCoords: "bottom-28 right-[28%] w-40",
@@ -38,9 +41,9 @@ const annotations = [
 ];
 ---
 
-<section 
-    class="pt-9xl overflow-hidden relative" 
-    id="design-section" 
+<section
+    class="pt-9xl overflow-hidden relative"
+    id="design-section"
     data-annotations={JSON.stringify(annotations)}
 >
     <div class="flex flex-col items-center gap-3xl w-full px-container">
@@ -53,11 +56,12 @@ const annotations = [
             </p>
         </div>
 
-        <div class="relative h-2xl w-full">
+        <div class="relative h-2xl w-full flex justify-center">
             <Image
                 src={productImg}
                 alt="Amber Product Detail"
-                class="relative w-auto h-2xl z-10 bottom-0 md:left-[35%]"
+                class="relative w-auto h-2xl z-10 bottom-0 pointer-events-none"
+                loading="lazy"
             />
 
             {
@@ -65,19 +69,36 @@ const annotations = [
                     <div class="contents">
                         <button
                             data-hotspot={note.id}
+                            aria-label={`Show info about ${note.title}`}
                             class={`md:hidden absolute ${note.pointerCoords} z-30 flex h-8 w-auto items-center justify-center cursor-pointer transition-transform active:scale-90`}
                         >
-                            <img src={hotspotIcon.src} alt="Pointer" class="w-14 h-auto" />
+                            <img
+                                src={hotspotIcon.src}
+                                alt=""
+                                class="w-14 h-auto"
+                            />
                         </button>
 
-                        <div class={`hidden md:block absolute ${note.arrowCoords} z-20`}>
-                            <img src={note.arrowImage.src} alt="Annotation arrow" class="w-full h-full" />
+                        <div
+                            class={`hidden md:block absolute ${note.arrowCoords} z-20 pointer-events-none`}
+                        >
+                            <Image
+                                src={note.arrowImage}
+                                alt=""
+                                class="w-full h-full"
+                            />
                         </div>
 
-                        <div class={`hidden md:flex absolute ${note.coords} z-20 items-center group`}>
+                        <div
+                            class={`hidden md:flex absolute ${note.coords} z-20 items-center group`}
+                        >
                             <div class="w-96 p-md rounded-medium border border-border-secondary bg-surface-primary text-left flex flex-col gap-2xs shadow-sm">
-                                <h4 class="title-sm text-text-primary">{note.title}</h4>
-                                <p class="body-sm text-text-primary">{note.description}</p>
+                                <h4 class="title-sm text-text-primary">
+                                    {note.title}
+                                </h4>
+                                <p class="body-sm text-text-primary">
+                                    {note.description}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -93,59 +114,75 @@ const annotations = [
         <div class="px-lg py-xl flex flex-col gap-2xs">
             <h4 id="drawer-title" class="title-sm text-text-primary"></h4>
             <p id="drawer-desc" class="body-sm text-text-primary pb-xs"></p>
-            <Button id="close-drawer" text="Close" variant="tertiary" class="w-full" />
+            <Button
+                id="close-drawer"
+                text="Close"
+                variant="tertiary"
+                class="w-full"
+            />
         </div>
     </div>
-    <div id="drawer-overlay" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-500"></div>
+    <div
+        id="drawer-overlay"
+        class="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-500"
+    >
+    </div>
 </section>
 
 <script>
-    const section = document.getElementById("design-section");
-    const hotspots = document.querySelectorAll("[data-hotspot]");
-    const drawer = document.getElementById("design-drawer");
-    const overlay = document.getElementById("drawer-overlay");
-    const dTitle = document.getElementById("drawer-title");
-    const dDesc = document.getElementById("drawer-desc");
-    const closeBtn = document.getElementById("close-drawer");
+    function initDesignSection() {
+        const section = document.getElementById("design-section");
+        if (!section) return;
 
-    // 2. Parse the annotations data from the HTML attribute
-    const annotations = JSON.parse(section.dataset.annotations);
-    
-    // Convert array to lookup object for easier access
-    const dataMap = annotations.reduce((acc, note) => {
-        acc[note.id] = { title: note.title, desc: note.description };
-        return acc;
-    }, {});
+        const hotspots = section.querySelectorAll("[data-hotspot]");
+        const drawer = document.getElementById("design-drawer");
+        const overlay = document.getElementById("drawer-overlay");
+        const dTitle = document.getElementById("drawer-title");
+        const dDesc = document.getElementById("drawer-desc");
+        const closeBtn = document.getElementById("close-drawer");
 
-    function openDrawer(id) {
-        if (!drawer || !overlay || !dTitle || !dDesc || !dataMap[id]) return;
-        dTitle.textContent = dataMap[id].title;
-        dDesc.textContent = dataMap[id].desc;
-        overlay.classList.remove("hidden");
-        setTimeout(() => overlay.classList.add("opacity-100"), 10);
-        drawer.classList.remove("translate-y-full");
-        document.body.style.overflow = "hidden";
-    }
+        const annotations = JSON.parse(section.dataset.annotations);
+        const dataMap = annotations.reduce((acc, note) => {
+            acc[note.id] = { title: note.title, desc: note.description };
+            return acc;
+        }, {});
 
-    function closeDrawer(e) {
-        // 3. Prevent the default anchor behavior (jumping to top)
-        if (e) e.preventDefault();
-        if (!drawer || !overlay) return;
-        drawer.classList.add("translate-y-full");
-        overlay.classList.remove("opacity-100");
-        setTimeout(() => overlay.classList.add("hidden"), 500);
-        document.body.style.overflow = "";
-    }
+        function openDrawer(id) {
+            if (!drawer || !overlay || !dTitle || !dDesc || !dataMap[id])
+                return;
+            dTitle.textContent = dataMap[id].title;
+            dDesc.textContent = dataMap[id].desc;
+            overlay.classList.remove("hidden");
+            requestAnimationFrame(() => overlay.classList.add("opacity-100"));
+            drawer.classList.remove("translate-y-full");
+            document.body.style.overflow = "hidden";
+        }
 
-    hotspots.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            if (window.innerWidth < 768) {
-                const id = btn.getAttribute("data-hotspot");
-                if (id) openDrawer(id);
-            }
+        function closeDrawer(e) {
+            if (e) e.preventDefault();
+            if (!drawer || !overlay) return;
+            drawer.classList.add("translate-y-full");
+            overlay.classList.remove("opacity-100");
+            setTimeout(() => {
+                if (drawer.classList.contains("translate-y-full"))
+                    overlay.classList.add("hidden");
+            }, 500);
+            document.body.style.overflow = "";
+        }
+
+        hotspots.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                if (window.innerWidth < 768) {
+                    const id = btn.getAttribute("data-hotspot");
+                    if (id) openDrawer(id);
+                }
+            });
         });
-    });
 
-    closeBtn?.addEventListener("click", closeDrawer);
-    overlay?.addEventListener("click", closeDrawer);
+        closeBtn?.addEventListener("click", closeDrawer);
+        overlay?.addEventListener("click", closeDrawer);
+    }
+
+    initDesignSection();
+    document.addEventListener("astro:after-swap", initDesignSection);
 </script>
