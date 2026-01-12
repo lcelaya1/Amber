@@ -8,7 +8,7 @@ const reviews = [
         author: "Sarah J. (Interior Architect & Beta Tester)",
     },
     {
-        quote: "I hated wearing a watch to bed. Amber’s radar tracking is mind-blowing, it captures my sleep stages perfectly without me having to wear or charge anything.",
+        quote: "I hated wearing a watch to bed. Amber's radar tracking is mind-blowing, it captures my sleep stages perfectly without me having to wear or charge anything.",
         author: "Mark T. (Software Engineer & Beta Tester)",
     },
     {
@@ -33,10 +33,10 @@ const reviews = [
                         data-active={index === 0 ? "true" : "false"}
                     >
                         <blockquote class="title-xl text-text-primary-invert">
-                            “{review.quote}”
+                            &ldquo;{review.quote}&rdquo;
                         </blockquote>
                         <cite class="title-md text-text-primary-invert italic">
-                            — {review.author}
+                            &mdash; {review.author}
                         </cite>
                     </div>
                 ))
